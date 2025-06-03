@@ -158,8 +158,8 @@ export default function HomePage() {
   const [typedText, setTypedText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const texts = [
-    "Cyber Emergency Response Team",
-    "Information Security Specialists",
+    "Computer Emergency Response Team",
+    "Information Security",
     "Ethical Hacking Experts",
     "Digital Forensics Analysts",
   ];

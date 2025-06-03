@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import Image from "next/image"
-import { usePathname } from "next/navigation"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Menu, X, Bug } from "lucide-react"
-import { useState } from "react"
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Menu, X, Bug } from "lucide-react";
+import { useState } from "react";
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -16,11 +16,11 @@ const navigation = [
   { name: "Blog", href: "/blog" },
   { name: "People", href: "/people" },
   { name: "User", href: "/user" },
-]
+];
 
 export function Navigation() {
-  const pathname = usePathname()
-  const [isOpen, setIsOpen] = useState(false)
+  const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <nav className="bg-cert-black/95 backdrop-blur-md border-b border-cert-border shadow-2xl sticky top-0 z-50">
@@ -38,8 +38,12 @@ export function Navigation() {
                 <div className="absolute inset-0 bg-cert-red/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
               <div className="flex flex-col">
-                <span className="text-xl font-bold text-cert-red tracking-wider drop-shadow-lg">CERT-IS</span>
-                <span className="text-xs text-cert-gray -mt-1 font-mono">Cyber Security Club</span>
+                <span className="text-xl font-bold text-cert-red tracking-wider drop-shadow-lg">
+                  CERT-IS
+                </span>
+                <span className="text-xs text-cert-gray -mt-1 font-mono">
+                  Cyber Security Club
+                </span>
               </div>
             </Link>
           </div>
@@ -54,7 +58,7 @@ export function Navigation() {
                   "px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg relative group overflow-hidden",
                   pathname === item.href
                     ? "text-cert-red bg-cert-red/10 shadow-lg shadow-cert-red/20"
-                    : "text-cert-light hover:text-cert-red hover:bg-cert-red/5",
+                    : "text-cert-light hover:text-cert-red hover:bg-cert-red/5"
                 )}
               >
                 <span className="relative z-10">{item.name}</span>
@@ -69,7 +73,9 @@ export function Navigation() {
                 variant="outline"
                 size="sm"
                 className="border-cert-red/50 text-cert-red hover:bg-cert-red hover:text-cert-light transition-all duration-300 hover:shadow-lg hover:shadow-cert-red/25"
-                onClick={() => window.open("https://forms.google.com", "_blank")}
+                onClick={() =>
+                  window.open("https://forms.google.com", "_blank")
+                }
               >
                 <Bug className="w-4 h-4 mr-2" />
                 Bug Report
@@ -85,7 +91,11 @@ export function Navigation() {
               onClick={() => setIsOpen(!isOpen)}
               className="text-cert-light hover:text-cert-red hover:bg-cert-red/10 transition-all duration-300"
             >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </Button>
           </div>
         </div>
@@ -102,7 +112,7 @@ export function Navigation() {
                     "block px-4 py-3 text-base font-medium transition-all duration-300 rounded-lg",
                     pathname === item.href
                       ? "text-cert-red bg-cert-red/10 shadow-lg"
-                      : "text-cert-light hover:text-cert-red hover:bg-cert-red/5",
+                      : "text-cert-light hover:text-cert-red hover:bg-cert-red/5"
                   )}
                   onClick={() => setIsOpen(false)}
                 >
@@ -114,8 +124,8 @@ export function Navigation() {
                 size="sm"
                 className="w-full mt-4 border-cert-red/50 text-cert-red hover:bg-cert-red hover:text-cert-light transition-all duration-300"
                 onClick={() => {
-                  window.open("https://forms.google.com", "_blank")
-                  setIsOpen(false)
+                  window.open("https://forms.google.com", "_blank");
+                  setIsOpen(false);
                 }}
               >
                 <Bug className="w-4 h-4 mr-2" />
@@ -126,5 +136,5 @@ export function Navigation() {
         )}
       </div>
     </nav>
-  )
+  );
 }
