@@ -1,13 +1,35 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Search, Mail, Github, Linkedin, MapPin, Calendar, Award, Users, Filter } from "lucide-react"
+import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Search,
+  Mail,
+  Github,
+  Linkedin,
+  MapPin,
+  Calendar,
+  Award,
+  Users,
+  Filter,
+} from "lucide-react";
 
 const mockMembers = [
   {
@@ -118,136 +140,202 @@ const mockMembers = [
     bio: "알고리즘과 자료구조에 특화된 개발자입니다. 문제 해결 능력을 기르며 효율적인 코드 작성을 추구합니다.",
     achievements: ["프로그래밍 대회 다수 입상", "알고리즘 스터디 리더"],
   },
-]
+];
 
-const roles = ["전체", "회장", "부회장", "개발팀장", "디자인팀장", "일반회원"]
-const years = ["전체", "1학년", "2학년", "3학년", "4학년"]
+const roles = ["전체", "회장", "부회장", "개발팀장", "디자인팀장", "일반회원"];
+const years = ["전체", "1학년", "2학년", "3학년", "4학년"];
 
 export default function PeoplePage() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedRole, setSelectedRole] = useState("전체")
-  const [selectedYear, setSelectedYear] = useState("전체")
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedRole, setSelectedRole] = useState("전체");
+  const [selectedYear, setSelectedYear] = useState("전체");
 
   const filteredMembers = mockMembers.filter((member) => {
     const matchesSearch =
       member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       member.major.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      member.skills.some((skill) => skill.toLowerCase().includes(searchTerm.toLowerCase()))
-    const matchesRole = selectedRole === "전체" || member.role === selectedRole
-    const matchesYear = selectedYear === "전체" || member.year === selectedYear
-    return matchesSearch && matchesRole && matchesYear
-  })
+      member.skills.some((skill) =>
+        skill.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    const matchesRole = selectedRole === "전체" || member.role === selectedRole;
+    const matchesYear = selectedYear === "전체" || member.year === selectedYear;
+    return matchesSearch && matchesRole && matchesYear;
+  });
 
   const getRoleColor = (role: string) => {
     switch (role) {
       case "회장":
-        return "bg-cert-red/20 text-cert-red border-cert-red/30"
+        return "border";
       case "부회장":
-        return "bg-orange-500/20 text-orange-400 border-orange-500/30"
+        return "bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 border-orange-200 dark:border-orange-700";
       case "개발팀장":
-        return "bg-cert-accent/20 text-cert-accent border-cert-accent/30"
+        return "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-700";
       case "디자인팀장":
-        return "bg-purple-500/20 text-purple-400 border-purple-500/30"
+        return "bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 border-purple-200 dark:border-purple-700";
       default:
-        return "bg-cert-gray/20 text-cert-gray border-cert-gray/30"
+        return "bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-600";
     }
-  }
+  };
+
+  const getRoleStyle = (role: string) => {
+    if (role === "회장") {
+      return {
+        backgroundColor: "rgba(158, 1, 1, 0.05)",
+        color: "#9E0101",
+        borderColor: "rgba(158, 1, 1, 0.2)",
+      };
+    }
+    return {};
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-cert-black via-cert-darker to-cert-black py-12">
+    <div className="min-h-screen bg-white dark:bg-gray-900 py-12 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-4">
-            <Users className="w-8 h-8 text-cert-red" />
-            <h1 className="text-3xl font-bold text-cert-light mb-2">People</h1>
+            <Users className="w-8 h-8" style={{ color: "#9E0101" }} />
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+              People
+            </h1>
           </div>
-          <p className="text-cert-gray">우리 동아리의 멋진 멤버들을 소개합니다.</p>
+          <p className="text-gray-600 dark:text-gray-400">
+            우리 동아리의 멋진 멤버들을 소개합니다.
+          </p>
         </div>
 
         {/* Search and Filter */}
         <div className="mb-8 flex flex-col sm:flex-row gap-4">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-cert-gray w-4 h-4" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
             <Input
               placeholder="이름, 전공, 기술스택으로 검색..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 bg-cert-card border-cert-border text-cert-light placeholder:text-cert-gray focus:border-cert-red"
+              className="pl-10 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500"
+              style={{ borderColor: "rgba(158, 1, 1, 0.3)" }}
+              onFocus={(e) => {
+                e.target.style.borderColor = "#9E0101";
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = "rgba(158, 1, 1, 0.3)";
+              }}
             />
           </div>
-          <div className="flex items-center gap-2">
-            <Filter className="w-4 h-4 text-cert-gray" />
+          <div className="flex gap-2 flex-wrap">
             <Select value={selectedRole} onValueChange={setSelectedRole}>
-              <SelectTrigger className="w-40 bg-cert-card border-cert-border text-cert-light">
+              <SelectTrigger className="w-32 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100">
                 <SelectValue placeholder="역할" />
               </SelectTrigger>
-              <SelectContent className="bg-cert-darker border-cert-border">
+              <SelectContent className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-600">
                 {roles.map((role) => (
-                  <SelectItem key={role} value={role} className="text-cert-light hover:bg-cert-red/20">
+                  <SelectItem
+                    key={role}
+                    value={role}
+                    className="text-gray-900 dark:text-gray-100"
+                  >
                     {role}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
+            <Select value={selectedYear} onValueChange={setSelectedYear}>
+              <SelectTrigger className="w-32 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100">
+                <SelectValue placeholder="학년" />
+              </SelectTrigger>
+              <SelectContent className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-600">
+                {years.map((year) => (
+                  <SelectItem
+                    key={year}
+                    value={year}
+                    className="text-gray-900 dark:text-gray-100"
+                  >
+                    {year}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
-          <Select value={selectedYear} onValueChange={setSelectedYear}>
-            <SelectTrigger className="w-40 bg-cert-card border-cert-border text-cert-light">
-              <SelectValue placeholder="학년" />
-            </SelectTrigger>
-            <SelectContent className="bg-cert-darker border-cert-border">
-              {years.map((year) => (
-                <SelectItem key={year} value={year} className="text-cert-light hover:bg-cert-red/20">
-                  {year}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
         </div>
 
         {/* Members Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredMembers.map((member) => (
             <Card
               key={member.id}
-              className="hover:shadow-xl hover:shadow-cert-red/10 transition-all duration-500 bg-cert-card border-cert-border hover:border-cert-red/30 transform hover:-translate-y-1 group"
+              className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 transition-all duration-500 group hover:shadow-lg transform hover:-translate-y-1 relative z-10"
+              style={{
+                borderColor: "rgba(158, 1, 1, 0.2)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "rgba(158, 1, 1, 0.5)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "rgba(158, 1, 1, 0.2)";
+              }}
             >
-              <CardHeader className="text-center">
+              <CardHeader className="text-center pb-4">
                 <div className="relative mb-4">
-                  <Avatar className="w-20 h-20 mx-auto border-2 border-cert-border group-hover:border-cert-red/30 transition-colors">
-                    <AvatarImage src={member.avatar || "/placeholder.svg"} />
-                    <AvatarFallback className="bg-cert-darker text-cert-light text-lg">
+                  <Avatar
+                    className="w-20 h-20 mx-auto border-2 border-gray-200 dark:border-gray-600 transition-colors"
+                    style={{
+                      borderColor: "rgba(158, 1, 1, 0.3)",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor =
+                        "rgba(158, 1, 1, 0.5)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor =
+                        "rgba(158, 1, 1, 0.3)";
+                    }}
+                  >
+                    <AvatarImage src={member.avatar} />
+                    <AvatarFallback className="text-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
                       {member.initials}
                     </AvatarFallback>
                   </Avatar>
-                  <div className="absolute inset-0 bg-cert-red/20 rounded-full blur-xl opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
                 </div>
                 <div className="space-y-2">
-                  <CardTitle className="text-xl text-cert-light group-hover:text-cert-red transition-colors">
+                  <CardTitle className="text-xl text-gray-900 dark:text-gray-100">
                     {member.name}
                   </CardTitle>
-                  <div className="flex justify-center gap-2">
-                    <Badge className={getRoleColor(member.role)}>{member.role}</Badge>
-                    <Badge variant="outline" className="border-cert-border/50 text-cert-gray">
-                      {member.year}
+                  <div className="flex justify-center">
+                    <Badge
+                      variant="outline"
+                      className={getRoleColor(member.role)}
+                      style={getRoleStyle(member.role)}
+                    >
+                      {member.role}
                     </Badge>
                   </div>
-                  <CardDescription className="text-cert-gray">{member.major}</CardDescription>
+                  <div className="text-sm text-gray-500 dark:text-gray-400 space-y-1">
+                    <p>
+                      {member.year} • {member.major}
+                    </p>
+                    <div className="flex items-center justify-center gap-1 text-gray-400 dark:text-gray-500">
+                      <MapPin className="w-3 h-3" />
+                      <span>{member.location}</span>
+                    </div>
+                  </div>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-4">
-                {/* Bio */}
-                <p className="text-sm text-cert-gray text-center">{member.bio}</p>
+              <CardContent className="pt-0">
+                <CardDescription className="text-center text-gray-600 dark:text-gray-400 mb-4 text-sm leading-relaxed">
+                  {member.bio}
+                </CardDescription>
 
                 {/* Skills */}
-                <div>
-                  <h4 className="text-sm font-medium text-cert-light mb-2">기술 스택</h4>
+                <div className="mb-4">
+                  <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    기술 스택
+                  </h4>
                   <div className="flex flex-wrap gap-1">
                     {member.skills.map((skill) => (
                       <Badge
                         key={skill}
-                        variant="outline"
-                        className="text-xs border-cert-border/50 text-cert-gray hover:text-cert-light hover:border-cert-red/30 transition-colors"
+                        variant="secondary"
+                        className="text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600"
                       >
                         {skill}
                       </Badge>
@@ -256,80 +344,74 @@ export default function PeoplePage() {
                 </div>
 
                 {/* Stats */}
-                <div className="grid grid-cols-2 gap-4 text-center">
-                  <div className="bg-cert-darker p-3 rounded-lg">
-                    <div className="text-lg font-bold text-cert-red group-hover:scale-110 transition-transform duration-300">
+                <div className="flex justify-between text-center mb-4">
+                  <div>
+                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
                       {member.projects}
-                    </div>
-                    <div className="text-xs text-cert-gray">프로젝트</div>
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      프로젝트
+                    </p>
                   </div>
-                  <div className="bg-cert-darker p-3 rounded-lg">
-                    <div className="text-lg font-bold text-cert-accent group-hover:scale-110 transition-transform duration-300">
-                      {member.achievements.length}
-                    </div>
-                    <div className="text-xs text-cert-gray">성과</div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                      {member.achievements?.length || 0}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      성과
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-1 text-gray-400 dark:text-gray-500">
+                    <Calendar className="w-3 h-3" />
+                    <span className="text-xs">{member.joinDate}</span>
                   </div>
                 </div>
 
-                {/* Achievements */}
-                <div>
-                  <h4 className="text-sm font-medium text-cert-light mb-2 flex items-center gap-1">
-                    <Award className="w-4 h-4 text-cert-red" />
-                    주요 성과
-                  </h4>
-                  <ul className="text-xs text-cert-gray space-y-1">
-                    {member.achievements.map((achievement, index) => (
-                      <li key={index} className="flex items-center gap-1">
-                        <span className="w-1 h-1 bg-cert-red rounded-full"></span>
-                        {achievement}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Contact Info */}
-                <div className="pt-4 border-t border-cert-border/30">
-                  <div className="flex items-center justify-between text-xs text-cert-gray mb-2">
-                    <div className="flex items-center gap-1">
-                      <MapPin className="w-3 h-3" />
-                      {member.location}
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Calendar className="w-3 h-3" />
-                      {member.joinDate} 가입
-                    </div>
-                  </div>
-
-                  <div className="flex justify-center gap-2">
+                {/* Contact */}
+                <div className="flex justify-center gap-3 pt-4 border-t border-gray-100 dark:border-gray-700">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 w-8 p-0 text-gray-400 dark:text-gray-500 transition-colors hover:bg-gray-100 dark:hover:bg-gray-700"
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = "#9E0101";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = "";
+                    }}
+                  >
+                    <Mail className="w-4 h-4" />
+                  </Button>
+                  {member.github && (
                     <Button
+                      variant="ghost"
                       size="sm"
-                      variant="outline"
-                      className="text-xs border-cert-border text-cert-gray hover:border-cert-red hover:text-cert-red"
+                      className="h-8 w-8 p-0 text-gray-400 dark:text-gray-500 transition-colors hover:bg-gray-100 dark:hover:bg-gray-700"
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = "#9E0101";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color = "";
+                      }}
                     >
-                      <Mail className="w-3 h-3 mr-1" />
-                      이메일
+                      <Github className="w-4 h-4" />
                     </Button>
-                    {member.github && (
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="text-xs border-cert-border text-cert-gray hover:border-cert-red hover:text-cert-red"
-                      >
-                        <Github className="w-3 h-3 mr-1" />
-                        GitHub
-                      </Button>
-                    )}
-                    {member.linkedin && (
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="text-xs border-cert-border text-cert-gray hover:border-cert-red hover:text-cert-red"
-                      >
-                        <Linkedin className="w-3 h-3 mr-1" />
-                        LinkedIn
-                      </Button>
-                    )}
-                  </div>
+                  )}
+                  {member.linkedin && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 w-8 p-0 text-gray-400 dark:text-gray-500 transition-colors hover:bg-gray-100 dark:hover:bg-gray-700"
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = "#9E0101";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color = "";
+                      }}
+                    >
+                      <Linkedin className="w-4 h-4" />
+                    </Button>
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -338,52 +420,82 @@ export default function PeoplePage() {
 
         {/* Empty State */}
         {filteredMembers.length === 0 && (
-          <div className="text-center py-16 bg-cert-card/50 rounded-xl border border-cert-border">
-            <Search className="w-16 h-16 text-cert-gray/30 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-cert-light mb-2">검색 결과가 없습니다</h3>
-            <p className="text-cert-gray">다른 검색어나 필터를 시도해보세요.</p>
+          <div className="text-center py-12">
+            <Users className="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+              검색 결과가 없습니다
+            </h3>
+            <p className="text-gray-500 dark:text-gray-400">
+              다른 검색어나 필터를 시도해보세요.
+            </p>
           </div>
         )}
 
-        {/* Club Statistics */}
-        <div className="mt-16">
-          <h2 className="text-2xl font-bold text-cert-light mb-8 text-center">동아리 현황</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {[
-              { title: "총 멤버", value: mockMembers.length, color: "cert-red" },
-              {
-                title: "총 프로젝트",
-                value: mockMembers.reduce((acc, member) => acc + member.projects, 0),
-                color: "cert-accent",
-              },
-              {
-                title: "졸업예정자",
-                value: mockMembers.filter((member) => member.year === "4학년").length,
-                color: "cert-red",
-              },
-              {
-                title: "신입생",
-                value: mockMembers.filter((member) => member.year === "1학년").length,
-                color: "cert-accent",
-              },
-            ].map((stat, index) => (
-              <Card
-                key={index}
-                className="text-center bg-cert-card border-cert-border hover:border-cert-red/30 transition-all duration-300 hover:shadow-lg hover:shadow-cert-red/10 group"
-              >
-                <CardHeader>
-                  <CardTitle
-                    className={`text-2xl font-bold text-${stat.color} group-hover:scale-110 transition-transform duration-300`}
-                  >
-                    {stat.value}
-                  </CardTitle>
-                  <CardDescription className="text-cert-gray">{stat.title}</CardDescription>
-                </CardHeader>
-              </Card>
-            ))}
-          </div>
+        {/* Team Stats */}
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-4 gap-6">
+          {[
+            { title: "총 멤버", value: mockMembers.length, icon: Users },
+            {
+              title: "총 프로젝트",
+              value: mockMembers.reduce(
+                (acc, member) => acc + member.projects,
+                0
+              ),
+              icon: Award,
+            },
+            {
+              title: "평균 경력",
+              value: `${Math.round(
+                mockMembers.reduce((acc, member) => {
+                  const joinYear = parseInt(member.joinDate.split("-")[0]);
+                  const experience = 2024 - joinYear;
+                  return acc + experience;
+                }, 0) / mockMembers.length
+              )}년`,
+              icon: Calendar,
+            },
+            {
+              title: "기술 스택",
+              value: new Set(mockMembers.flatMap((m) => m.skills)).size,
+              icon: Filter,
+            },
+          ].map((stat, index) => (
+            <Card
+              key={index}
+              className="text-center bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 transition-all duration-300 hover:shadow-lg group relative z-10"
+              style={{
+                borderColor: "rgba(158, 1, 1, 0.2)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "rgba(158, 1, 1, 0.5)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "rgba(158, 1, 1, 0.2)";
+              }}
+            >
+              <CardHeader>
+                <div className="flex justify-center mb-2">
+                  <stat.icon
+                    className="w-8 h-8 group-hover:scale-110 transition-transform duration-300"
+                    style={{ color: "#9E0101" }}
+                  />
+                </div>
+                <CardTitle
+                  className="text-2xl font-bold text-gray-900 dark:text-gray-100 transition-colors"
+                  style={{
+                    color: "#9E0101",
+                  }}
+                >
+                  {stat.value}
+                </CardTitle>
+                <CardDescription className="text-gray-600 dark:text-gray-400">
+                  {stat.title}
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          ))}
         </div>
       </div>
     </div>
-  )
+  );
 }

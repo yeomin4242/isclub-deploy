@@ -1,12 +1,37 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { FileText, Download, Calendar, Tag, Search, Plus, Filter, Shield, Lock, Eye, Terminal, Zap } from "lucide-react"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  FileText,
+  Download,
+  Calendar,
+  Tag,
+  Search,
+  Plus,
+  Filter,
+  Shield,
+  Lock,
+  Eye,
+  Terminal,
+  Zap,
+} from "lucide-react";
 
 const mockStudies = [
   {
@@ -14,7 +39,8 @@ const mockStudies = [
     title: "OWASP Top 10 2023 취약점 분석",
     date: "2024-01-15",
     author: "김보안",
-    description: "최신 OWASP Top 10 취약점에 대한 상세 분석과 실제 공격 시나리오, 대응 방안을 정리한 자료입니다.",
+    description:
+      "최신 OWASP Top 10 취약점에 대한 상세 분석과 실제 공격 시나리오, 대응 방안을 정리한 자료입니다.",
     tags: ["OWASP", "Web Security", "Vulnerability"],
     attachments: [
       { name: "OWASP_Top10_2023_Analysis.pdf", type: "pdf", size: "3.2MB" },
@@ -28,7 +54,8 @@ const mockStudies = [
     title: "Metasploit Framework 완전 정복",
     date: "2024-01-12",
     author: "이해커",
-    description: "Metasploit을 활용한 모의해킹 기법과 실습 가이드. 초보자부터 고급자까지 단계별로 학습할 수 있습니다.",
+    description:
+      "Metasploit을 활용한 모의해킹 기법과 실습 가이드. 초보자부터 고급자까지 단계별로 학습할 수 있습니다.",
     tags: ["Metasploit", "Penetration Testing", "Exploitation"],
     attachments: [
       { name: "Metasploit_Guide.pdf", type: "pdf", size: "5.1MB" },
@@ -42,7 +69,8 @@ const mockStudies = [
     title: "암호학 기초와 RSA 구현",
     date: "2024-01-10",
     author: "박암호",
-    description: "현대 암호학의 기초 이론부터 RSA 알고리즘의 수학적 원리와 Python 구현까지 다룹니다.",
+    description:
+      "현대 암호학의 기초 이론부터 RSA 알고리즘의 수학적 원리와 Python 구현까지 다룹니다.",
     tags: ["Cryptography", "RSA", "Python"],
     attachments: [
       { name: "Cryptography_Basics.pdf", type: "pdf", size: "2.7MB" },
@@ -56,7 +84,8 @@ const mockStudies = [
     title: "디지털 포렌식 실무 가이드",
     date: "2024-01-08",
     author: "최포렌식",
-    description: "Autopsy와 Volatility를 활용한 디지털 증거 수집과 분석 방법론을 실습 중심으로 설명합니다.",
+    description:
+      "Autopsy와 Volatility를 활용한 디지털 증거 수집과 분석 방법론을 실습 중심으로 설명합니다.",
     tags: ["Digital Forensics", "Autopsy", "Volatility"],
     attachments: [
       { name: "Forensics_Guide.pdf", type: "pdf", size: "4.5MB" },
@@ -70,7 +99,8 @@ const mockStudies = [
     title: "네트워크 보안 모니터링",
     date: "2024-01-05",
     author: "정네트워크",
-    description: "Wireshark와 Snort를 활용한 네트워크 트래픽 분석과 침입 탐지 시스템 구축 방법을 다룹니다.",
+    description:
+      "Wireshark와 Snort를 활용한 네트워크 트래픽 분석과 침입 탐지 시스템 구축 방법을 다룹니다.",
     tags: ["Network Security", "Wireshark", "IDS"],
     attachments: [
       { name: "Network_Monitoring.pdf", type: "pdf", size: "3.8MB" },
@@ -79,7 +109,7 @@ const mockStudies = [
     category: "Network Security",
     difficulty: "intermediate",
   },
-]
+];
 
 const categories = [
   "전체",
@@ -89,8 +119,8 @@ const categories = [
   "Digital Forensics",
   "Network Security",
   "Malware Analysis",
-]
-const difficulties = ["전체", "beginner", "intermediate", "advanced"]
+];
+const difficulties = ["전체", "beginner", "intermediate", "advanced"];
 const allTags = [
   "OWASP",
   "Web Security",
@@ -108,220 +138,207 @@ const allTags = [
   "Wireshark",
   "IDS",
   "Malware Analysis",
-]
+];
 
 export default function StudyPage() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("전체")
-  const [selectedDifficulty, setSelectedDifficulty] = useState("전체")
-  const [selectedTag, setSelectedTag] = useState("all")
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("전체");
+  const [selectedDifficulty, setSelectedDifficulty] = useState("전체");
+  const [selectedTag, setSelectedTag] = useState("all");
 
   const filteredStudies = mockStudies.filter((study) => {
     const matchesSearch =
       study.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       study.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      study.author.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesCategory = selectedCategory === "전체" || study.category === selectedCategory
-    const matchesDifficulty = selectedDifficulty === "전체" || study.difficulty === selectedDifficulty
-    const matchesTag = selectedTag === "all" || selectedTag === "" || study.tags.includes(selectedTag)
-    return matchesSearch && matchesCategory && matchesDifficulty && matchesTag
-  })
+      study.author.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory =
+      selectedCategory === "전체" || study.category === selectedCategory;
+    const matchesDifficulty =
+      selectedDifficulty === "전체" || study.difficulty === selectedDifficulty;
+    const matchesTag =
+      selectedTag === "all" ||
+      selectedTag === "" ||
+      study.tags.includes(selectedTag);
+    return matchesSearch && matchesCategory && matchesDifficulty && matchesTag;
+  });
 
   const getFileIcon = (type: string) => {
     switch (type) {
       case "pdf":
-        return <FileText className="w-4 h-4 text-cert-red" />
+        return <FileText className="w-4 h-4 text-cert-red" />;
       case "zip":
-        return <FileText className="w-4 h-4 text-cert-accent" />
+        return <FileText className="w-4 h-4 text-cert-accent" />;
       case "py":
-        return <Terminal className="w-4 h-4 text-green-400" />
+        return <Terminal className="w-4 h-4 text-green-400" />;
       default:
-        return <FileText className="w-4 h-4 text-cert-gray" />
+        return <FileText className="w-4 h-4 text-cert-gray" />;
     }
-  }
+  };
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
       case "beginner":
-        return "bg-green-500/20 text-green-400 border-green-500/30"
+        return "bg-green-50 text-green-600 border-green-200";
       case "intermediate":
-        return "bg-yellow-500/20 text-yellow-400 border-yellow-500/30"
+        return "bg-yellow-50 text-yellow-600 border-yellow-200";
       case "advanced":
-        return "bg-cert-red/20 text-cert-red border-cert-red/30"
+        return "bg-red-50 text-red-600 border-red-200";
       default:
-        return "bg-cert-gray/20 text-cert-gray border-cert-gray/30"
+        return "bg-gray-50 text-gray-600 border-gray-200";
     }
-  }
+  };
 
   const getDifficultyIcon = (difficulty: string) => {
     switch (difficulty) {
       case "beginner":
-        return <Shield className="w-3 h-3" />
+        return <Shield className="w-3 h-3" />;
       case "intermediate":
-        return <Lock className="w-3 h-3" />
+        return <Lock className="w-3 h-3" />;
       case "advanced":
-        return <Zap className="w-3 h-3" />
+        return <Zap className="w-3 h-3" />;
       default:
-        return <Eye className="w-3 h-3" />
+        return <Eye className="w-3 h-3" />;
     }
-  }
+  };
 
   const getTagColor = (tag: string) => {
     const colors = [
-      "bg-cert-red/20 text-cert-red border-cert-red/30",
-      "bg-cert-accent/20 text-cert-accent border-cert-accent/30",
-      "bg-green-500/20 text-green-400 border-green-500/30",
-      "bg-purple-500/20 text-purple-400 border-purple-500/30",
-      "bg-orange-500/20 text-orange-400 border-orange-500/30",
-      "bg-pink-500/20 text-pink-400 border-pink-500/30",
-    ]
-    return colors[tag.length % colors.length]
-  }
+      "bg-blue-50 text-blue-600",
+      "bg-green-50 text-green-600",
+      "bg-purple-50 text-purple-600",
+      "bg-orange-50 text-orange-600",
+      "bg-pink-50 text-pink-600",
+    ];
+    return colors[tag.length % colors.length];
+  };
 
   return (
-    <div className="min-h-screen bg-cert-dark py-8">
+    <div className="min-h-screen bg-white py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-12">
           <div className="flex items-center gap-3 mb-4">
             <Terminal className="w-8 h-8 text-cert-red" />
-            <h1 className="text-3xl font-bold text-cert-light">Security Study Materials</h1>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Study Hub</h1>
           </div>
-          <p className="text-cert-gray">사이버보안 학습 자료와 실습 가이드를 공유하고 함께 성장하세요.</p>
+          <p className="text-gray-600">
+            보안 연구 자료와 학습 리소스를 공유하는 공간입니다.
+          </p>
         </div>
 
         {/* Search and Filter */}
-        <div className="mb-6 space-y-4">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-cert-gray w-4 h-4" />
-              <Input
-                placeholder="보안 자료 검색..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 bg-cert-darker border-cert-gray/30 text-cert-light placeholder:text-cert-gray focus:border-cert-red"
-              />
-            </div>
-            <Button className="bg-cert-red hover:bg-cert-red/80 text-cert-light">
+        <div className="mb-8 flex flex-col lg:flex-row gap-4">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+            <Input
+              placeholder="제목, 내용, 작성자로 검색..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10 bg-white border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-cert-red"
+            />
+          </div>
+          <div className="flex gap-3 flex-wrap">
+            <Select
+              value={selectedCategory}
+              onValueChange={setSelectedCategory}
+            >
+              <SelectTrigger className="w-48 bg-white border-gray-300 text-gray-900">
+                <SelectValue placeholder="카테고리" />
+              </SelectTrigger>
+              <SelectContent className="bg-white border-gray-200">
+                {categories.map((category) => (
+                  <SelectItem
+                    key={category}
+                    value={category}
+                    className="text-gray-900"
+                  >
+                    {category}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Select
+              value={selectedDifficulty}
+              onValueChange={setSelectedDifficulty}
+            >
+              <SelectTrigger className="w-32 bg-white border-gray-300 text-gray-900">
+                <SelectValue placeholder="난이도" />
+              </SelectTrigger>
+              <SelectContent className="bg-white border-gray-200">
+                {difficulties.map((difficulty) => (
+                  <SelectItem
+                    key={difficulty}
+                    value={difficulty}
+                    className="text-gray-900"
+                  >
+                    {difficulty === "전체"
+                      ? difficulty
+                      : difficulty === "beginner"
+                      ? "초급"
+                      : difficulty === "intermediate"
+                      ? "중급"
+                      : "고급"}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Button className="bg-cert-red hover:bg-cert-red/80 text-white">
               <Plus className="w-4 h-4 mr-2" />
               자료 업로드
             </Button>
           </div>
-
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex items-center gap-2">
-              <Filter className="w-4 h-4 text-cert-gray" />
-              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                <SelectTrigger className="w-48 bg-cert-darker border-cert-gray/30 text-cert-light">
-                  <SelectValue placeholder="카테고리" />
-                </SelectTrigger>
-                <SelectContent className="bg-cert-darker border-cert-gray/30">
-                  {categories.map((category) => (
-                    <SelectItem key={category} value={category} className="text-cert-light hover:bg-cert-red/20">
-                      {category}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <Shield className="w-4 h-4 text-cert-gray" />
-              <Select value={selectedDifficulty} onValueChange={setSelectedDifficulty}>
-                <SelectTrigger className="w-40 bg-cert-darker border-cert-gray/30 text-cert-light">
-                  <SelectValue placeholder="난이도" />
-                </SelectTrigger>
-                <SelectContent className="bg-cert-darker border-cert-gray/30">
-                  {difficulties.map((difficulty) => (
-                    <SelectItem key={difficulty} value={difficulty} className="text-cert-light hover:bg-cert-red/20">
-                      {difficulty === "전체"
-                        ? "전체"
-                        : difficulty === "beginner"
-                          ? "초급"
-                          : difficulty === "intermediate"
-                            ? "중급"
-                            : "고급"}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <Tag className="w-4 h-4 text-cert-gray" />
-              <Select value={selectedTag} onValueChange={setSelectedTag}>
-                <SelectTrigger className="w-48 bg-cert-darker border-cert-gray/30 text-cert-light">
-                  <SelectValue placeholder="태그 선택" />
-                </SelectTrigger>
-                <SelectContent className="bg-cert-darker border-cert-gray/30">
-                  <SelectItem value="all" className="text-cert-light hover:bg-cert-red/20">
-                    모든 태그
-                  </SelectItem>
-                  {allTags.map((tag) => (
-                    <SelectItem key={tag} value={tag} className="text-cert-light hover:bg-cert-red/20">
-                      {tag}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            {(selectedCategory !== "전체" || selectedDifficulty !== "전체" || selectedTag !== "all") && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  setSelectedCategory("전체")
-                  setSelectedDifficulty("전체")
-                  setSelectedTag("all")
-                }}
-                className="border-cert-gray/30 text-cert-gray hover:border-cert-red hover:text-cert-red"
-              >
-                필터 초기화
-              </Button>
-            )}
-          </div>
         </div>
 
         {/* Studies Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {filteredStudies.map((study) => (
             <Card
               key={study.id}
-              className="bg-cert-darker border-cert-gray/20 hover:border-cert-red/50 transition-all duration-300 cursor-pointer group hover:shadow-lg hover:shadow-cert-red/10"
+              className="bg-white border-gray-200 hover:border-cert-red/50 transition-all duration-300 hover:shadow-lg group"
             >
-              <CardHeader>
-                <div className="flex items-start justify-between mb-2">
-                  <Badge variant="outline" className="text-cert-red border-cert-red/30">
-                    {study.category}
-                  </Badge>
+              <CardHeader className="pb-4">
+                <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <Badge className={getDifficultyColor(study.difficulty)}>
+                    <Badge
+                      variant="outline"
+                      className={getDifficultyColor(study.difficulty)}
+                    >
                       {getDifficultyIcon(study.difficulty)}
                       <span className="ml-1">
                         {study.difficulty === "beginner"
                           ? "초급"
                           : study.difficulty === "intermediate"
-                            ? "중급"
-                            : "고급"}
+                          ? "중급"
+                          : "고급"}
                       </span>
                     </Badge>
-                    <div className="flex items-center text-sm text-cert-gray">
-                      <Calendar className="w-4 h-4 mr-1" />
-                      {study.date}
-                    </div>
+                    <Badge
+                      variant="secondary"
+                      className="bg-gray-100 text-gray-600"
+                    >
+                      {study.category}
+                    </Badge>
                   </div>
+                  <span className="text-sm text-gray-500">{study.date}</span>
                 </div>
-                <CardTitle className="group-hover:text-cert-red transition-colors text-cert-light">
+                <CardTitle className="text-xl text-gray-900 group-hover:text-cert-red transition-colors">
                   {study.title}
                 </CardTitle>
-                <CardDescription className="text-cert-gray">{study.description}</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-0">
+                <CardDescription className="text-gray-600 mb-4 leading-relaxed">
+                  {study.description}
+                </CardDescription>
+
                 {/* Tags */}
                 <div className="flex flex-wrap gap-1 mb-4">
                   {study.tags.map((tag) => (
-                    <Badge key={tag} variant="outline" className={`text-xs ${getTagColor(tag)}`}>
+                    <Badge
+                      key={tag}
+                      variant="secondary"
+                      className={`text-xs ${getTagColor(tag)}`}
+                    >
+                      <Tag className="w-3 h-3 mr-1" />
                       {tag}
                     </Badge>
                   ))}
@@ -329,23 +346,30 @@ export default function StudyPage() {
 
                 {/* Attachments */}
                 <div className="space-y-2 mb-4">
-                  <h4 className="text-sm font-medium text-cert-light">첨부파일</h4>
-                  {study.attachments.map((file, index) => (
+                  <h4 className="text-sm font-medium text-gray-700 flex items-center gap-1">
+                    <FileText className="w-4 h-4" />
+                    첨부 파일
+                  </h4>
+                  {study.attachments.map((attachment, index) => (
                     <div
                       key={index}
-                      className="flex items-center justify-between p-2 bg-cert-dark/50 rounded-md hover:bg-cert-dark transition-colors border border-cert-gray/20"
+                      className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200 hover:border-gray-300 transition-colors"
                     >
-                      <div className="flex items-center gap-2">
-                        {getFileIcon(file.type)}
+                      <div className="flex items-center gap-3">
+                        {getFileIcon(attachment.type)}
                         <div>
-                          <div className="text-sm font-medium text-cert-light">{file.name}</div>
-                          <div className="text-xs text-cert-gray">{file.size}</div>
+                          <p className="text-sm font-medium text-gray-900">
+                            {attachment.name}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            {attachment.size}
+                          </p>
                         </div>
                       </div>
                       <Button
-                        size="sm"
                         variant="ghost"
-                        className="text-cert-red hover:text-cert-red/80 hover:bg-cert-red/10"
+                        size="sm"
+                        className="text-gray-500 hover:text-cert-red"
                       >
                         <Download className="w-4 h-4" />
                       </Button>
@@ -353,10 +377,20 @@ export default function StudyPage() {
                   ))}
                 </div>
 
-                {/* Author */}
-                <div className="pt-4 border-t border-cert-gray/20">
-                  <span className="text-sm text-cert-gray">작성자: </span>
-                  <span className="text-sm text-cert-accent">{study.author}</span>
+                {/* Author and Date */}
+                <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                      <span className="text-xs font-medium text-gray-700">
+                        {study.author.slice(0, 2)}
+                      </span>
+                    </div>
+                    <span className="font-medium">{study.author}</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-sm text-gray-500">
+                    <Calendar className="w-4 h-4" />
+                    <span>{study.date}</span>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -366,59 +400,60 @@ export default function StudyPage() {
         {/* Empty State */}
         {filteredStudies.length === 0 && (
           <div className="text-center py-12">
-            <Terminal className="w-16 h-16 text-cert-gray/50 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-cert-light mb-2">검색 결과가 없습니다</h3>
-            <p className="text-cert-gray">다른 검색어나 필터를 시도해보세요.</p>
+            <Terminal className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 mb-2">
+              검색 결과가 없습니다
+            </h3>
+            <p className="text-gray-500">다른 검색어나 필터를 시도해보세요.</p>
           </div>
         )}
 
-        {/* Statistics */}
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-4 gap-6">
-          <Card className="text-center bg-cert-darker border-cert-gray/20">
-            <CardHeader>
-              <CardTitle className="text-2xl font-bold text-cert-red">{mockStudies.length}</CardTitle>
-              <CardDescription className="text-cert-gray">총 자료 수</CardDescription>
-            </CardHeader>
-          </Card>
-          <Card className="text-center bg-cert-darker border-cert-gray/20">
-            <CardHeader>
-              <CardTitle className="text-2xl font-bold text-cert-accent">{categories.length - 1}</CardTitle>
-              <CardDescription className="text-cert-gray">보안 분야</CardDescription>
-            </CardHeader>
-          </Card>
-          <Card className="text-center bg-cert-darker border-cert-gray/20">
-            <CardHeader>
-              <CardTitle className="text-2xl font-bold text-cert-red">{allTags.length}</CardTitle>
-              <CardDescription className="text-cert-gray">기술 태그</CardDescription>
-            </CardHeader>
-          </Card>
-          <Card className="text-center bg-cert-darker border-cert-gray/20">
-            <CardHeader>
-              <CardTitle className="text-2xl font-bold text-cert-accent">
-                {mockStudies.reduce((acc, study) => acc + study.attachments.length, 0)}
-              </CardTitle>
-              <CardDescription className="text-cert-gray">첨부파일</CardDescription>
-            </CardHeader>
-          </Card>
-        </div>
-
-        {/* Security Notice */}
-        <div className="mt-12 bg-cert-darker/50 border border-cert-red/20 rounded-lg p-6">
-          <div className="flex items-start gap-3">
-            <Shield className="w-6 h-6 text-cert-red mt-1" />
-            <div>
-              <h3 className="text-lg font-semibold text-cert-light mb-2">보안 자료 이용 안내</h3>
-              <ul className="text-sm text-cert-gray space-y-1">
-                <li>• 모든 자료는 교육 목적으로만 사용해주세요</li>
-                <li>• 실제 시스템에 대한 무단 공격은 절대 금지입니다</li>
-                <li>• 취약점 정보는 책임감 있게 다뤄주세요</li>
-                <li>• 저작권이 있는 자료는 출처를 명시해주세요</li>
-                <li>• 문제가 있는 자료 발견 시 즉시 신고해주세요</li>
-              </ul>
-            </div>
-          </div>
+        {/* Study Stats */}
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-4 gap-6">
+          {[
+            {
+              title: "총 자료",
+              value: mockStudies.length,
+              icon: FileText,
+            },
+            {
+              title: "카테고리",
+              value: categories.length - 1,
+              icon: Tag,
+            },
+            {
+              title: "첨부파일",
+              value: mockStudies.reduce(
+                (acc, study) => acc + study.attachments.length,
+                0
+              ),
+              icon: Download,
+            },
+            {
+              title: "연구진",
+              value: new Set(mockStudies.map((s) => s.author)).size,
+              icon: Terminal,
+            },
+          ].map((stat, index) => (
+            <Card
+              key={index}
+              className="text-center bg-white border-gray-200 hover:border-cert-red/50 transition-all duration-300 hover:shadow-lg group"
+            >
+              <CardHeader>
+                <div className="flex justify-center mb-2">
+                  <stat.icon className="w-8 h-8 text-cert-red group-hover:scale-110 transition-transform duration-300" />
+                </div>
+                <CardTitle className="text-2xl font-bold text-gray-900 group-hover:text-cert-red transition-colors">
+                  {stat.value}
+                </CardTitle>
+                <CardDescription className="text-gray-600">
+                  {stat.title}
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          ))}
         </div>
       </div>
     </div>
-  )
+  );
 }
